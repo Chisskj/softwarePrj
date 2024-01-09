@@ -21,12 +21,12 @@ export default class OrderSeat extends Component {
           </Card.Body>
         </Card>
         <div className="pt-4 checkout">
-          <Link to={`/movie-detail/${localStorage.getItem('datamovieId')}`}>
+          <Link to="/">
             <Button
               variant="outline-primary"
               className="float-left col-12 col-md-5"
             >
-              Back to choose showtime
+              Change your movie
             </Button>
           </Link>
           <Link to="/payment">

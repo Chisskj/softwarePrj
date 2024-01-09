@@ -18,7 +18,6 @@ function ButtonPanel(props) {
 				<Button
 					variant="primary shadow"
 					className="float-right col-12 col-md-5"
-					onClick={props.onClick}
 				>
 					{props.buttonRight}
 				</Button>

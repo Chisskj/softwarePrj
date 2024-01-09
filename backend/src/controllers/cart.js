@@ -1,4 +1,5 @@
 const cartModel = require("../models/carts");
+const showtimeModel = require("../models/showtimes");
 const { APP_URL } = process.env;
 const status = require("../helpers/Response");
 const qs = require("querystring");
@@ -6,14 +7,20 @@ const fs = require("fs");
 
 
 exports.createCart = async (req, res) => {
-  const {
+  
+  let {
     user_id,
     movie_id,
     showtime = "10:00AM-2:00PM",
-    price = 12,
+    price ,
     seat = null,
     state= "not paid",
   } = req.body;
+  console.log(req.body);
+  console.log("MOVIEID: ", movie_id)
+  price2 = await showtimeModel.getPriceByMovieID(movie_id);
+  price = price2[0].price
+  // console.log("PRICEEE:", price[0].price);
 	const data = req.body;
   const datalength = 10
   const results2 = await cartModel.getCartByUser(user_id)
@@ -39,11 +46,18 @@ exports.createCart = async (req, res) => {
       state,
     });
     if (results) {
-      return status.ResponseStatus(res, 200, "Genre created successfully", {
+      return status.ResponseStatus(res, 200, "Cart created successfully", {
+        notice: "successful",
         id: results.insertId,
         ...data,
       });
     }
+  }
+  else{
+    return status.ResponseStatus(res, 200, "This movie is already in cart", {
+      notice: "fail",
+      ...data,
+    });
   }
 	
 };

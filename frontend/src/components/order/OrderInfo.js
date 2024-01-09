@@ -7,27 +7,18 @@ import { createOrder, createSeat } from "../../redux/actions/order";
 
 class OrderInfo extends Component {
   render() {
-    const { dataDate, dataShowtime } = this.props.order.listOrder;
-    localStorage.setItem("seatOrder", "");
-    if(this.props.order.seatOrder){
-      localStorage.setItem("seatOrder", this.props.order.seatOrder);
-    }
-    if(dataShowtime !=null)
-    localStorage.setItem("datashowtimeCinema", dataShowtime.cinema);
+    const { dataDate, dataMovie, dataShowtime } = this.props.order.listOrder;
     const seats = typeof this.props.order.seatOrder === 'string' ? this.props.order.seatOrder.split(",") : [];
-		const movieTitle = localStorage.getItem("datamovieTitle") ?? '';
-    
-    if(dataShowtime !=null)
-    localStorage.setItem("dataShowtimePrice", dataShowtime.price);
-    const totalPrice = localStorage.getItem("dataShowtimePrice") * seats.length;
+		const movieTitle = dataMovie?.title ?? '';
+    const totalPrice = dataShowtime.price * seats.length;
     return (
       <Col xs={12} lg={4}>
         <p className="text-display-xs-bold">Order Info</p>
         <Card className="border-0 shadow order-seat">
           <Card.Body className="pb-0">
             <div className="text-center">
-              <Image src={localStorage} height={40} alt="" />
-              <p className="text-link-lg pt-2">{localStorage.getItem("datashowtimeCinema")}</p>
+              <Image src={dataShowtime.picture} height={40} alt="" />
+              <p className="text-link-lg pt-2">{dataShowtime.cinema}</p>
             </div>
             <div className="d-flex justify-content-between">
               <p className="text-xs text-color-label">Movie selected</p>
@@ -46,7 +37,7 @@ class OrderInfo extends Component {
             <div className="d-flex justify-content-between">
               <p className="text-xs text-color-label">One ticket price</p>
               <p className="text-right text-link-xs text-color-title">
-                ${localStorage.getItem("dataShowtimePrice")}
+                ${dataShowtime.price}
               </p>
             </div>
             <div className="d-flex justify-content-between">

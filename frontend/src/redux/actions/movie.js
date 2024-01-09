@@ -38,19 +38,6 @@ export const getAllMovie = () => {
 	};
 };
 
-export const getMovieDetailByTitle = (title) => {
-	console.log("GETMOVIEBYTITLE", title)
-	return async (dispatch) => {
-		const response = await http().get(`movies/13?title=${title}`);
-		dispatch({
-			type: "GET_MOVIE_DETAIL_BY_TITLE",
-			payload: response.data.results,
-		});
-		dispatch({
-			type: "TOGGLE_MOVIE_LOADING",
-		});
-	};
-};
 export const getMovieDetail = (id) => {
 	return async (dispatch) => {
 		const response = await http().get(`movies/${id}`);
@@ -64,6 +51,43 @@ export const getMovieDetail = (id) => {
 	};
 };
 
+export const getMovieDetailByTitle = (title) => {
+	console.log("GETMOVIEBYTITLE", title)
+	return async (dispatch) => {
+		const response = await http().get(`movies/13?title=${title}`);
+		dispatch({
+			type: "GET_MOVIE_DETAIL_BY_TITLE",
+			payload: response.data.results,
+		});
+		dispatch({
+			type: "TOGGLE_MOVIE_LOADING",
+		});
+	};
+};
+
+export const getMovieByGenres = (id) => {
+	return async (dispatch) => {
+		const response = await http().get(`list_genres/${id}`);
+		// console.log("responseresponseresponse: ", response.data.results)
+		dispatch({
+			type: "GET_MOVIE_BY_GENRES",
+			payload: response.data.results,
+		});
+		dispatch({
+			type: "TOGGLE_CART_LOADING",
+		});
+	};
+};
+
+export const createMovie = (id, data) => {
+	console.log("MOVIEE:", data)
+	return async (dispatch) => {
+		const response = await http().post(`movies/${id}`, data);
+		dispatch({
+			type: "TOGGLE_MOVIE_UPDATE",
+		});
+	};
+};
 export const deleteMovieByID = (id) => {
 	return async (dispatch) => {
 		await http().delete(`movies/${id}`);
@@ -72,20 +96,10 @@ export const deleteMovieByID = (id) => {
 		});
 	};
 };
-
 export const updateMovieByID = (id, data) => {
 	console.log("MOVIEE:", data)
 	return async (dispatch) => {
 		const response = await http().patch(`movies/${id}`, data);
-		dispatch({
-			type: "TOGGLE_MOVIE_UPDATE",
-		});
-	};
-};
-export const createMovie = (id, data) => {
-	console.log("MOVIEE:", data)
-	return async (dispatch) => {
-		const response = await http().post(`movies/${id}`, data);
 		dispatch({
 			type: "TOGGLE_MOVIE_UPDATE",
 		});

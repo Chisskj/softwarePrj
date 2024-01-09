@@ -33,16 +33,6 @@ exports.createBulkShowtime = async (id, data = []) => {
 
 exports.getShowtimeByCondition = (cond) => {
   return new Promise((resolve, reject) => {
-    console.log(`
-    SELECT DISTINCT cinemas.id as cinemaId, cinemas.name as cinemaName, 
-    cinemas.picture as cinemaPicture, 
-    cinemas.address as cinemaAddress, s.price as cinemaPrice,
-    times.name as timeName, times.id as timeId 
-    FROM ${table} s
-    INNER JOIN times,cinemas
-    WHERE  idMovie = ${cond.movie}
-    
-    `);
     dbConn.query(
       `
 			SELECT DISTINCT cinemas.id as cinemaId, cinemas.name as cinemaName, 
@@ -67,19 +57,13 @@ exports.getShowtimeByMovieId = (cond) => {
   return new Promise((resolve, reject) => {
     dbConn.query(
       `
-      SELECT
-		s.id,
-    (SELECT c.id FROM cinemas c WHERE c.id = s.idCinema) as cinemaId,
-    (SELECT c.name FROM cinemas c WHERE c.id = s.idCinema) as cinemaName,
-    (SELECT c.picture FROM cinemas c WHERE c.id = s.idCinema) as cinemaPicture,
-    (SELECT c.address FROM cinemas c WHERE c.id = s.idCinema) as cinemaAddress,
-    s.price as cinemaPrice,
-    (SELECT t.name FROM times t WHERE t.id = s.idTime) as timeName,
-    s.idTime as timeId
-FROM
-    showtimes s
-WHERE
-    s.idMovie = ${cond.movie}
+			SELECT DISTINCT cinemas.id as cinemaId, cinemas.name as cinemaName, 
+			cinemas.picture as cinemaPicture, 
+			cinemas.address as cinemaAddress, s.price as cinemaPrice,
+			times.name as timeName, times.id as timeId 
+			FROM ${table} s
+			INNER JOIN times,cinemas
+			WHERE  idMovie = ${cond.movie}
 			`,
       (err, res, field) => {
         if (err) reject(err);
@@ -99,6 +83,20 @@ exports.getLocDate = (id) => {
         resolve(res);
       }
     );
+  });
+};
+exports.getPriceByMovieID = (id) => {
+  return new Promise((resolve, reject) => {
+    const query = dbConn.query(
+      `
+			SELECT price FROM ${table} WHERE idMovie = ${id} 
+			`,
+      (err, res, field) => {
+        if (err) reject(err);
+        resolve(res);
+      }
+    );
+    console.log(query.sql);
   });
 };
 

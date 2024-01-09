@@ -2,7 +2,7 @@ const initialState = {
   listOrder: [],
   errorMsg: "",
   seatOrder: [],
-  vnpUrl: [],
+  transaction: [],
 };
 
 const orderReducer = (state = initialState, action) => {
@@ -25,10 +25,10 @@ const orderReducer = (state = initialState, action) => {
         seatOrder: action.payload,
       };
     }
-    case "GET_VNPay": {
+    case "GET_ALL_TRANSACTION": {
       return {
         ...state,
-        vnpUrl: action.payload,
+        transaction: action.payload,
       };
     }
     default: {

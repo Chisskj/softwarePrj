@@ -15,6 +15,7 @@ export const cart = (user_id, movie_id) => {
 			dispatch({
 				type: "CREATE_CART",
 				payload: results.data.token,
+				notice: results.data.results,
 			});
 		} catch (err) {
 			const { message } = err.response.data;
@@ -59,7 +60,7 @@ export const delete_cart = (user_id, id) => {
 export const getCart = (id) => {
 	return async (dispatch) => {
 		const response = await http().get(`addcart-page/${id}`);
-		console.log("responseresponseresponse: ", response.data.results)
+		// console.log("responseresponseresponse: ", response.data.results)
 		dispatch({
 			type: "GET_CART_DETAIL",
 			payload: response.data.results,

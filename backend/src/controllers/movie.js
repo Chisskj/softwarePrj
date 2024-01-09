@@ -53,7 +53,7 @@ exports.createMovie = async (req, res) => {
   }
   const movieData = {
     title: data.title,
-    picture: `${APP_URL}${req.file.destination}/${req.file.filename}` || null,
+    picture: `${APP_URL}${req.file.destination}/${req.file.filename}` || "picture-1612274875615-394973585.png",
     releaseDate: data.releaseDate,
     directed: data.directed,
     duration: data.duration,
@@ -95,14 +95,7 @@ exports.createMovie = async (req, res) => {
 
 exports.detailMovie = async (req, res) => {
   const { id } = req.params;
-  const { title } = req.query;
-  let results=null;
-  if(title != null){
-    results = await movieModel.getMovieByTittleWithItems(title);
-  }
-  else{
-    results = await movieModel.getMovieByIdWithItems(id);
-  }
+  const results = await movieModel.getMovieByIdWithItems(id);
   if (results.length > 0) {
     return status.ResponseStatus(res, 200, "Details of movie", {
       id: results[0].id,
@@ -191,10 +184,14 @@ exports.deleteMovie = async (req, res) => {
 exports.updateMovie = async (req, res) => {
   try {
     const { id } = req.params;
-    const { ...data } = req.body;
+    
+    let data = req.body;
+    console.log("BODDYYY:",req.body);
     const initialResult = await movieModel.getMovieById(id);
     if (initialResult.length < 1) {
+      console.log("Toan");
       return status.ResponseStatus(res, 404, "Movie not found");
+      
     }
 
     if (req.file) {
@@ -208,8 +205,40 @@ exports.updateMovie = async (req, res) => {
       }
       return status.ResponseStatus(res, 400, "Can't update Image");
     }
-
     const finalResult = await movieModel.updateMovie(id, data);
+    console.log(finalResult);
+    if (finalResult.affectedRows > 0) {
+      return status.ResponseStatus(res, 200, "data successfully updated", {
+        ...initialResult[0],
+        ...data,
+      });
+    }
+    return status.ResponseStatus(res, 400, "Failed to update data");
+  } catch (err) {
+    console.log(err);
+    return status.ResponseStatus(res, 400, "Bad Request");
+  }
+};
+
+//toan
+exports.insertMovie = async (req, res) => {
+  try {
+    let { id } = req.params;
+    console.log("id:",id);
+    let data = req.body;
+    console.log("insert body:",req.body);
+    const initialResult = await movieModel.getMovieById(id);
+    //
+    
+    console.log("id ban dau:",id);
+    const maxId = await movieModel.getMaxMovieId();
+    let tempid = maxId + 1; // Assuming you want the next ID
+    data.id = tempid;
+    console.log("tempid:",tempid);
+    console.log("id luc sau:",id);
+
+    const finalResult = await movieModel.insertMovie(data);
+    console.log(finalResult);
     if (finalResult.affectedRows > 0) {
       return status.ResponseStatus(res, 200, "data successfully updated", {
         ...initialResult[0],

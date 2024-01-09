@@ -38,6 +38,19 @@ export const getAllMovie = () => {
 	};
 };
 
+export const getMovieDetailByTitle = (title) => {
+	console.log("GETMOVIEBYTITLE", title)
+	return async (dispatch) => {
+		const response = await http().get(`movies/13?title=${title}`);
+		dispatch({
+			type: "GET_MOVIE_DETAIL_BY_TITLE",
+			payload: response.data.results,
+		});
+		dispatch({
+			type: "TOGGLE_MOVIE_LOADING",
+		});
+	};
+};
 export const getMovieDetail = (id) => {
 	return async (dispatch) => {
 		const response = await http().get(`movies/${id}`);
@@ -50,16 +63,31 @@ export const getMovieDetail = (id) => {
 		});
 	};
 };
-export const getMovieDetailByTitle = (title) => {
-	console.log("GETMOVIEBYTITLE", title)
+
+export const deleteMovieByID = (id) => {
 	return async (dispatch) => {
-		const response = await http().get(`movies/13?title=${title}`);
+		await http().delete(`movies/${id}`);
 		dispatch({
-			type: "GET_MOVIE_DETAIL_BY_TITLE",
-			payload: response.data.results,
+			type: "TOGGLE_MOVIE_DELETE",
 		});
+	};
+};
+
+export const updateMovieByID = (id, data) => {
+	console.log("MOVIEE:", data)
+	return async (dispatch) => {
+		const response = await http().patch(`movies/${id}`, data);
 		dispatch({
-			type: "TOGGLE_MOVIE_LOADING",
+			type: "TOGGLE_MOVIE_UPDATE",
+		});
+	};
+};
+export const createMovie = (id, data) => {
+	console.log("MOVIEE:", data)
+	return async (dispatch) => {
+		const response = await http().post(`movies/${id}`, data);
+		dispatch({
+			type: "TOGGLE_MOVIE_UPDATE",
 		});
 	};
 };

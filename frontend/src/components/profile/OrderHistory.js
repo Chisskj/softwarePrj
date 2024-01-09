@@ -12,7 +12,7 @@ export default class OrderHistory extends Component {
             <div className="d-flex justify-content-between align-items-center">
               <div>
                 <p className="text-xs text-color-muted mb-1">
-                  Tuesday, 07 July 2020 - 04:30pm
+                  Tuesday, 09-01-2024 - 11:00pm
                 </p>
                 <p className="text-display-xs mb-0">Spider-Man: Homecoming</p>
               </div>
@@ -42,7 +42,7 @@ export default class OrderHistory extends Component {
             <div className="d-flex justify-content-between align-items-center">
               <div>
                 <p className="text-xs text-color-muted mb-1">
-                  Monday, 14 June 2020 - 02:00pm
+                  Monday, 08-01-2024 - 08:30am
                 </p>
                 <p className="text-display-xs mb-0">Avengers: End Game</p>
               </div>
@@ -70,7 +70,7 @@ export default class OrderHistory extends Component {
             <div className="d-flex justify-content-between align-items-center">
               <div>
                 <p className="text-xs text-color-muted mb-1">
-                  Monday, 10 March 2020 - 04:00pm
+                Monday, 08-01-2024 - 08:30am
                 </p>
                 <p className="text-display-xs mb-0">Thor: Ragnarok</p>
               </div>

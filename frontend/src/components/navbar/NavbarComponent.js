@@ -74,9 +74,6 @@ class NavbarComponent extends Component {
               <Nav.Item>
                 {/* <Form action="" className="search-form"> */}
                 <input type="search" className="" ref={this.inputRef}/>
-                  <button class="fa fa-search" onClick={this.handle}>
-                    <Link to={`/movie-detail/${this.props.details.id}`}></Link>
-                  </button>
                 {/* </Form> */}
               </Nav.Item>
 
@@ -95,13 +92,6 @@ class NavbarComponent extends Component {
                   id="basic-nav-dropdown"
                   className="m-0"
                 >
-                  <NavDropdown.Item href="admin-page">
-                    Signed in as <br />
-                    <strong>
-                      {data.fullName === null ? data.email : data.fullName}
-                    </strong>
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
                   <NavDropdown.Item href="/">Home</NavDropdown.Item>
                   <NavDropdown.Item href="/profile-page">
                     Your Profile

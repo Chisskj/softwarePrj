@@ -1,12 +1,17 @@
 import React, { Component } from "react";
-import { Table } from "react-bootstrap";
+import { Table , Button} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import http from "../helpers/http";
-
+import { deleteMovieByID } from "../redux/actions/movie";
+import { connect } from "react-redux";
 class MovieTable extends Component {
-	state = {
-		movies: [],
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			movies: [],
+		};
+	}
+	
 	async componentDidMount() {
 		const response = await http().get("movies");
 		this.setState({
@@ -15,6 +20,7 @@ class MovieTable extends Component {
 	}
 	render() {
 		const { movies } = this.state;
+
 		console.log(movies);
 		return (
 			<div>
@@ -40,12 +46,19 @@ class MovieTable extends Component {
 										>
 											Edit
 										</Link>{" "}
-										<Link
-											to={`/admin-panel/manage_movie/delete/${movie.id}`}
-											className="btn btn-sm btn-danger"
+										<Button
+											type="radio"
+											size="sm"
+											variant="light"
+											className="btn-time"
+											onClick={() =>{
+												this.props.deleteMovieByID(movie.id);
+												window.location.reload()
+											}
+											}
 										>
-											Delete
-										</Link>
+											DELETE
+										</Button>
 									</td>
 								</tr>
 							);
@@ -57,4 +70,11 @@ class MovieTable extends Component {
 	}
 }
 
-export default MovieTable;
+
+const mapStateToProps = (state) => ({
+	auth: state.auth,
+});
+
+const mapDispatchToProps = { deleteMovieByID };
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieTable);

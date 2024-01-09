@@ -31,11 +31,14 @@ const movieReducer = (state = initialState, action) => {
 				details: action.payload,
 			};
 		}
-		case "GET_MOVIE_DETAIL_BY_TITLE": {
-			console.log("DETAIL: ", action.payload)
+		case "TOGGLE_MOVIE_DELETE": {
 			return {
 				...state,
-				details: action.payload,
+			};
+		}
+		case "TOGGLE_MOVIE_UPDATE": {
+			return {
+				...state,
 			};
 		}
 		default: {

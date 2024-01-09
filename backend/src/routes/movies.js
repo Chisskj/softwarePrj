@@ -23,26 +23,19 @@ routes
   .route("/movies/:id")
   .get(movieController.detailMovie)
   .delete(
-    authMiddleware.authCheck,
-    authMiddleware.authRole(Role.Admin),
     movieController.deleteMovie
   )
   .patch(
-    authMiddleware.authCheck,
-    authMiddleware.authRole(Role.Admin),
-    uploadImage,
+    // authMiddleware.authCheck,
+    // authMiddleware.authRole(Role.Admin),
+    // uploadImage,
     movieController.updateMovie
   )
-  // .patch(
-  // 	authMiddleware.authCheck,
-  // 	authMiddleware.authRole(Role.Admin),
-  // 	movieController.updateGenreMovie,
-  // )
-  .put(
-    authMiddleware.authCheck,
-    authMiddleware.authRole(Role.Admin),
-    uploadImage,
-    movieController.updateMovie
+  .post(
+    // authMiddleware.authCheck,
+    // authMiddleware.authRole(Role.Admin),
+    // uploadImage,
+    movieController.insertMovie
   );
 
 module.exports = routes;

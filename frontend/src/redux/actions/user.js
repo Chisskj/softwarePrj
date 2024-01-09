@@ -13,8 +13,7 @@ export const userDetail = (token) => {
 
       const response = await http(token).get("user", { headers });
       localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(response.data.results));
-      console.log(localStorage.getItem("user"));
+
       dispatch({
         type: "GET_USER",
         payload: response.data.results,
@@ -33,7 +32,7 @@ export const userDetail = (token) => {
 
 export const updateUser = (token, data, id) => {
   console.log("vua update xong")
-  console.log(token)
+  console.log("data vua update xong", data)
   return async (dispatch) => {
     const params = new URLSearchParams();
 
@@ -60,7 +59,7 @@ export const updateUser = (token, data, id) => {
         type: "SET_USER_MESSAGE",
         message: "",
       });
-      const response = await http(token).patch(`user/${id}`, params);
+      const response = await http(token).patch(`user`, params);
       dispatch({
         type: "UPDATE_USER",
         payload: response.data.results,

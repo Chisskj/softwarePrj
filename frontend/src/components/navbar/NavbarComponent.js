@@ -17,6 +17,7 @@ import { userDetail } from "../../redux/actions/user";
 import { logout } from "../../redux/actions/auth";
 import { getCart } from "../../redux/actions/cart";
 import { getMovieDetailByTitle } from "../../redux/actions/movie";
+import SearchBar from "../../components/searchbar/SearchBar";
 
 class NavbarComponent extends Component {
   constructor(props) {
@@ -43,9 +44,14 @@ class NavbarComponent extends Component {
     return (
       <Navbar expand="lg">
         <Container>
-        <Navbar.Brand href="#home" className="m-0">
+          {/* <Navbar.Brand href="#home" className="m-0">
             <Link to="/">
-              <Image src={cinemaGr07_purple} style={{ width: '75px', height: 'auto' }} />
+              <Image src={cinemaGr07_purple} />
+            </Link>
+          </Navbar.Brand> */}
+          <Navbar.Brand href="#home" className="m-0">
+            <Link to="/">
+              <Image src={cinemaGr07_purple} style={{ width: '65px', height: 'auto' }} />
             </Link>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -73,7 +79,11 @@ class NavbarComponent extends Component {
               </Nav.Item>
               <Nav.Item>
                 {/* <Form action="" className="search-form"> */}
-                <input type="search" className="" ref={this.inputRef}/>
+                {/* <input type="search" className="" ref={this.inputRef}/>
+                  <button class="fa fa-search" onClick={this.handle}>
+                    <Link to={`/movie-detail/${this.props.details.id}`}></Link>
+                  </button> */}
+                <SearchBar/>
                 {/* </Form> */}
               </Nav.Item>
 
@@ -92,6 +102,13 @@ class NavbarComponent extends Component {
                   id="basic-nav-dropdown"
                   className="m-0"
                 >
+                  <NavDropdown.Item href="admin-page">
+                    Signed in as <br />
+                    <strong>
+                      {data.fullName === null ? data.email : data.fullName}
+                    </strong>
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
                   <NavDropdown.Item href="/">Home</NavDropdown.Item>
                   <NavDropdown.Item href="/profile-page">
                     Your Profile

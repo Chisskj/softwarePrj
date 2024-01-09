@@ -72,4 +72,3 @@ export default class AdminPanel extends Component {
 	}
 }
 
-

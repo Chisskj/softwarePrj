@@ -53,21 +53,16 @@ export const createSeat = (data = []) => {
 	};
 };
 
-export const getVNPay = (amount) => {
+export const getOrderHistory = (id) => {
 	return async (dispatch) => {
-		const response = await http().post(`order/create_payment_url`, {
-            orderType: 'topup',
-            amount: amount,
-            orderDescription: 'gogo',
-            bankCode: 'NCB',
-            language: 'vn'
-        });
+		const response = await http().get(`orders/${id}`);
+		// console.log("responseresponseresponse: ", response.data.results)
 		dispatch({
-			type: "GET_VNPay",
-			payload: response.data.vnpUrl,
+			type: "GET_ALL_TRANSACTION",
+			payload: response.data.results,
 		});
 		dispatch({
-			type: "TOGGLE_VNPay_LOADING",
+			type: "TOGGLE_TRANSACTION_LOADING",
 		});
 	};
 };

@@ -13,33 +13,35 @@ class TicketComponent extends Component {
   }
 
   async createOrder() {
-    const  token  = localStorage.getItem("token");
-    const  seatOrder  = localStorage.getItem("seatOrder");
+    const { auth, order } = this.props;
+    const { token } = auth;
+    const { listOrder } = order;
+    const { dataLocation ,dataDate, dataShowtime, dataMovie } = listOrder;
+    const { seatOrder } = this.props.order;
     try {
       const params = {
-        idMovie: localStorage.getItem("datamovieId"),
+        idMovie: dataMovie.id,
         idCinema: localStorage.getItem("idCinema"),
         idTime: localStorage.getItem("timeId"),
-        idLocation: "6",
-        dateTime: "20230817",
-        price: localStorage.getItem("dataShowtimePrice")* seatOrder.split(",").length,
+        idLocation: dataLocation,
+        dateTime: dataDate,
+        price: dataShowtime.price * seatOrder.split(",").length,
         seatName: seatOrder
       };
   
       const searchParams = new URLSearchParams(params);
       const url = `orders?${searchParams.toString()}`;
-      
       const response = await http(token).post(url);
       const responseData = response.data;
-      console.log("responđATA",responseData);
+      console.log(responseData);
     } catch (err) {
       console.log(err);
     }
   }
-  
   render() {
-    const { dataDate } = localStorage.getItem("listOrder");
-    const seatOrder  = localStorage.getItem("seatOrder");
+    const { dataDate, dataShowtime, dataMovie } = this.props.order.listOrder;
+    const { seatOrder } = this.props.order;
+    console.log("THIS PROP: ", this.props);
     return (
       <div>
         <Container className="py-5">
@@ -92,7 +94,7 @@ class TicketComponent extends Component {
                     </Card.Header>
                     <Card.Body className="pb-0">
                       <p className="info mb-1">Movie</p>
-                      <p className="info-value">{localStorage.getItem("datamovieTitle")}</p>
+                      <p className="info-value">{dataMovie.title}</p>
                       <Row className="d-flex justify-content-center align-items-center">
                         <Col xs={4}>
                           <p className="info mb-1">Date</p>
@@ -119,13 +121,13 @@ class TicketComponent extends Component {
                         <Col xs={4}>
                           <p className="info mb-1">Seats</p>
                           <p className="info-value">
-                            {localStorage.getItem("seatOrder") + ""}
+                            {this.props.order.seatOrder + ""}
                           </p>
                         </Col>
                         <Col xs={4}>
                           <p className="info mb-1">Price</p>
                           <p className="info-value-price">
-                            ${localStorage.getItem("dataShowtimePrice") * seatOrder.split(",").length}
+                            ${dataShowtime.price * seatOrder.split(",").length}
                           </p>
                         </Col>
                       </Row>
@@ -174,7 +176,7 @@ class TicketComponent extends Component {
                           <Row className="d-flex align-items-center">
                             <Col xs={12}>
                               <p className="info mb-1">Movie</p>
-                              <p className="info-value">{localStorage.getItem("datamovieTitle")}</p>
+                              <p className="info-value">{dataMovie.title}</p>
                             </Col>
                             <Col xs={6}>
                               <p className="info mb-1">Date</p>
@@ -195,14 +197,14 @@ class TicketComponent extends Component {
                             <Col xs={6}>
                               <p className="info mb-1">Count</p>
                               <p className="info-value">
-                                {localStorage.getItem("seatOrder").split(",").length} pieces
+                                {seatOrder.split(",").length} pieces
                               </p>
                             </Col>
                             <Col xs={6}></Col>
                             <Col xs={6}>
                               <p className="info mb-1">Seats</p>
                               <p className="info-value">
-                                {localStorage.getItem("seatOrder") + ""}
+                                {this.props.order.seatOrder + ""}
                               </p>
                             </Col>
                           </Row>

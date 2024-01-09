@@ -97,7 +97,6 @@ class CartDetailComponent extends Component {
               
                   <Button 
                     onClick={() =>{
-                      console.log("vua click xong")
                       this.props.delete_cart(
                         cart.details[0].user_id,
                         order.id,

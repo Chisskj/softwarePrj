@@ -12,11 +12,7 @@
 	function OrderPage({ order }) {
 		const { dataMovie } = order.listOrder;
 		const movieTitle = dataMovie?.title ?? '';
-		
 		console.log(order);
-		
-		localStorage.setItem("datamovieId", dataMovie?.id?? 135);
-		localStorage.setItem("datamovieTitle", movieTitle);
 		return (
 			<div>
 				<NavbarComponent />

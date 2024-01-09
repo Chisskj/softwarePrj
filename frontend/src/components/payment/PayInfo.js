@@ -6,7 +6,8 @@ import { createOrder, createSeat } from "../../redux/actions/order";
 
 class MovieDesc extends Component {
   render() {
-    const { dataDate } = this.props.order.listOrder;
+    const { dataDate, dataMovie, dataShowtime } = this.props.order.listOrder;
+    const { seatOrder } = this.props.order;
     return (
       <div>
         <ListGroup variant="flush">
@@ -22,26 +23,26 @@ class MovieDesc extends Component {
             <p className="float-left text-lg-20 text-color-label">
               Movie title
             </p>
-            <p className="float-right text-lg-20">{localStorage.getItem("datamovieTitle")}</p>
+            <p className="float-right text-lg-20">{dataMovie.title}</p>
           </ListGroup.Item>
           <ListGroup.Item className="pb-0">
             <p className="float-left text-lg-20 text-color-label">
               Cinema name
             </p>
-            <p className="float-right text-lg-20">{localStorage.getItem("datashowtimeCinema")}</p>
+            <p className="float-right text-lg-20">{dataShowtime.cinema}</p>
           </ListGroup.Item>
           <ListGroup.Item className="pb-0">
             <p className="float-left text-lg-20 text-color-label">
               Number of tickets
             </p>
-            <p className="float-right text-lg-20">{localStorage.getItem("seatOrder").split(",").length} pieces</p>
+            <p className="float-right text-lg-20">{seatOrder.split(",").length} pieces</p>
           </ListGroup.Item>
           <ListGroup.Item className="pb-0">
             <p className="float-left text-lg-20 text-color-label">
               Total payment
             </p>
             <p className="float-right text-link-lg">
-              ${localStorage.getItem("dataShowtimePrice") * localStorage.getItem("seatOrder").split(",").length}
+              ${dataShowtime.price * seatOrder.split(",").length}
             </p>
           </ListGroup.Item>
         </ListGroup>

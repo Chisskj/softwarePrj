@@ -9,14 +9,14 @@ const status = require("./src/helpers/Response");
 dotenv.config();
 const { APP_PORT } = process.env;
 const app = express();
-
-//app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Phân tích cú pháp request body dưới dạng URL encoded
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 app.use(cors("*"));
+dotenv.config();
 
 app.use("/uploads", express.static("uploads"));
 
@@ -38,8 +38,7 @@ app.use(
   require("./src/routes/orders"),
   require("./src/routes/locations"),
   require("./src/routes/seats"),
-  require("./src/routes/showtimes"),
-  require("./src/routes/payment"),
+  require("./src/routes/showtimes")
 );
 
 app.all("*", (req, res) => {

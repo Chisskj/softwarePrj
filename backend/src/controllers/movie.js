@@ -53,7 +53,7 @@ exports.createMovie = async (req, res) => {
   }
   const movieData = {
     title: data.title,
-    picture: `${APP_URL}${req.file.destination}/${req.file.filename}` || "picture-1612274875615-394973585.png",
+    picture: `${APP_URL}${req.file.destination}/${req.file.filename}` || null,
     releaseDate: data.releaseDate,
     directed: data.directed,
     duration: data.duration,

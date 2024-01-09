@@ -7,7 +7,6 @@
 .img-gradient:after {
 	border-radius: 16px;
 	content: "";
-	position: absolute;
 	left: 0;
 	top: 0;
 	width: 100%;
@@ -24,9 +23,9 @@
 	object-position: center;
 	border-radius: 16px;
 	display: block;
+	z-index: 99;
 }
 .img-gradient {
-	position: relative;
 	display: inline-block;
 }
 section {
@@ -63,5 +62,6 @@ section {
 	.img-gradient img {
 		width: 94.82px;
 		height: 311.98px;
+		z-index: 98;
 	}
 }

@@ -157,7 +157,6 @@ exports.getShowtime = async (req, res) => {
   cond.movie = cond.movie || "";
 
   const resultGetTimes = await showtimeModel.getShowtimeByMovieId(cond);
-  console.log(resultGetTimes);
   const output = {};
   resultGetTimes.forEach((item) => {
     if (!output[item.cinemaName]) {
@@ -170,6 +169,7 @@ exports.getShowtime = async (req, res) => {
         times: [],
       };
     }
+    // output[item.cinemaName].times.push(item.timeName);
     output[item.cinemaName].times.push({
       time: item.timeName,
       id: item.timeId,

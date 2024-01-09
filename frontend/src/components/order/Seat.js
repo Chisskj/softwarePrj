@@ -22,10 +22,9 @@ class Seat extends Component {
     const { token } = auth;
     const { listOrder } = order;
     const { dataMovie } = listOrder;
-    localStorage.setItem("listOrder", listOrder);
     try {
       const params = {
-        idMovie: localStorage.getItem("datamovieId"),
+        idMovie: dataMovie.id,
         idCinema: localStorage.getItem("idCinema"),
         idTime: localStorage.getItem("timeId"),
       };
@@ -38,9 +37,7 @@ class Seat extends Component {
       for (const res of responseData) {
         seated += res.seat + ", ";
       }
-      if (responseData != null)
-      localStorage.setItem("seated", seated);
-      else seated = localStorage.getItem("seated");
+      console.log(seated.split(", "));
       this.setState({
         seatOrdered: seated.split(", "),
       });

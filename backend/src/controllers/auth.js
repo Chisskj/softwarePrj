@@ -36,7 +36,7 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.register = async (req, res) => {
+exports.register = async (req, res) => { 
   try {
     const {
       email,
@@ -44,6 +44,7 @@ exports.register = async (req, res) => {
       role = Role.User,
       picture = "https://t4.ftcdn.net/jpg/03/32/59/65/360_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg",
     } = req.body;
+
     this.checkValidation(req, res);
     const isExist = await userModel.getUsersByCondition({ email });
     if (isExist.length < 1) {
@@ -75,10 +76,12 @@ exports.register = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { authorization } = req.headers;
+		const token = authorization.substr(7);
+		const data2 = jwt.verify(token, APP_KEY);
     const { password, ...data } = req.body;
     const salt = await bcrypt.genSalt();
-    const initialResult = await userModel.getUsersById(id);
+    const initialResult = await userModel.getUsersById(data2.id);
     if (initialResult.length < 1) {
       return status.ResponseStatus(res, 404, "User not found");
     }
@@ -96,7 +99,7 @@ exports.updateUser = async (req, res) => {
 
     if (req.file) {
       const picture = `${APP_URL}${req.file.destination}/${req.file.filename}`;
-      const uploadImage = await userModel.updateUser(id, { picture });
+      const uploadImage = await userModel.updateUser(data2.id, { picture });
       if (uploadImage.affectedRows > 0) {
         // if (initialResult[0].picture !== null) {
         //   fs.unlink(`${initialResult[0].picture}`);
@@ -106,7 +109,7 @@ exports.updateUser = async (req, res) => {
       return status.ResponseStatus(res, 400, "Can't update Image");
     }
 
-    const finalResult = await userModel.updateUser(id, data);
+    const finalResult = await userModel.updateUser(data2.id, data);
     if (finalResult.affectedRows > 0) {
       return status.ResponseStatus(res, 200, "data successfully updated", {
         ...initialResult[0],

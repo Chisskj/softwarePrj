@@ -9,18 +9,18 @@ routes
 	.route("/genres/:id")
 	.get(genreController.detailGenre)
 	.delete(
-		authMiddleware.authCheck,
-		authMiddleware.authRole(Role.Admin),
+		// authMiddleware.authCheck,
+		// authMiddleware.authRole(Role.Admin),
 		genreController.deleteGenre,
 	)
 	.patch(
-		authMiddleware.authCheck,
-		authMiddleware.authRole(Role.Admin),
+		// authMiddleware.authCheck,
+		// authMiddleware.authRole(Role.Admin),
 		genreController.updateGenre,
 	)
 	.put(
-		authMiddleware.authCheck,
-		authMiddleware.authRole(Role.Admin),
+		// authMiddleware.authCheck,
+		// authMiddleware.authRole(Role.Admin),
 		genreController.updateGenre,
 	);
 
@@ -37,5 +37,8 @@ routes
 		authMiddleware.authRole(Role.Admin),
 		genreController.createGenre,
 	);
+routes
+.route("/all-genres")
+.get(genreController.listAllGenres);
 
 module.exports = routes;

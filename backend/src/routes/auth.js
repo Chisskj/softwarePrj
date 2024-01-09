@@ -10,6 +10,7 @@ const authMiddleware = require("../middlewares/auth");
 
 routes.post("/auth/login", validateLogin, authController.login);
 routes.post("/auth/register", createUserSchema, authController.register);
+
 routes
   .route("/user")
   .patch(

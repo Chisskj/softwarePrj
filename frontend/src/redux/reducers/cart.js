@@ -3,6 +3,7 @@ const initialState = {
 	details: {},
 	token: null,
 	errorMsg: "",
+	notice: ""
 };
 
 const cartReducer = (state = initialState, action) => {
@@ -12,6 +13,7 @@ const cartReducer = (state = initialState, action) => {
 			return {
 				...state,
 				token: action.payload,
+				notice: action.notice,
 			};
 		}
 		case "SET_CREATE_CART_MESSAGE": {

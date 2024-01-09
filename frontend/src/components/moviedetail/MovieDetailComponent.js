@@ -13,10 +13,11 @@ import { cart } from "../../redux/actions/cart";
 import { createOrder } from "../../redux/actions/order";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 class MovieDetailComponent extends Component {
   constructor(props) {
-
     super(props);
     this.state = {
       selectValue: "",
@@ -42,10 +43,10 @@ class MovieDetailComponent extends Component {
     this.props.movieTime(id);
     const data = new URLSearchParams();
         data.append("movie", this.props.match.params.id);
-        const response = await http().get(`movieShowtime?${data.toString()}`);
+        const response = await http().get(`showtimes?${data.toString()}`);
         this.setState({
           location: "6",
-          date: "20230819",
+          date: "20230606",
           showResults: response.data.results,
         });
   }
@@ -64,6 +65,7 @@ class MovieDetailComponent extends Component {
   render() {
     const { movie } = this.props;
     const { user_id } = this.props;
+    console.log("PROPS:", this.props)
     console.log("user_id: ", user_id.data.id)
     console.log("movie.details: ", movie.details)
     const { timeData } = this.props.showtime;
@@ -71,7 +73,6 @@ class MovieDetailComponent extends Component {
     const backendImageUrl = `${process.env.REACT_APP_API_URL}uploads`; // Thay thế bằng đường dẫn URL của backend từ biến môi trường
     const imageUrl = `${backendImageUrl}/${movie.details.picture}`;
     console.log("imageUrl",imageUrl)
-    localStorage.setItem("datamovieTitle", movie.details.title);
     return (
     <div>
         <Row>
@@ -129,6 +130,49 @@ class MovieDetailComponent extends Component {
 
         <div className="text-center py-5">
           <p className="text-display-xs-bold">Showtimes and Tickets</p>
+          <Row className="justify-content-center">
+            <Col lg={3} md={5} xs={12} className="d-grid pt-4">
+              <Form.Group className="d-flex align-items-center">
+                <Image src={calendar} className="position-absolute pl-3" />
+                <Form.Control
+                  name="date"
+                  defaultValue=""
+                  as="select"
+                  className="border-0 pl-5 pick"
+                  onChange={this.searchCinema}
+                >
+                  <option value="">Select date</option>
+                  {timeData.length > 0 &&
+                    timeData.map((item) => (
+                      <option
+                        value={moment(item.showTimeDate).format("YYYY-MM-DD")}
+                      >
+                        {moment(item.showTimeDate).format("DD MMM YYYY")}
+                      </option>
+                    ))}
+                </Form.Control>
+              </Form.Group>
+            </Col>
+
+            <Col lg={3} md={5} xs={12} className="d-grid pt-4">
+              <Form.Group className="d-flex align-items-center">
+                <Image src={map} className="position-absolute pl-3" />
+                <Form.Control
+                  name="location"
+                  defaultValue=""
+                  as="select"
+                  className="border-0 pl-5 pick"
+                  onChange={this.searchCinema}
+                >
+                  <option value="">Select city</option>
+                  {timeData.length > 0 &&
+                    timeData.map((item) => (
+                      <option value={item.idLocation}>{item.location}</option>
+                    ))}
+                </Form.Control>
+              </Form.Group>
+            </Col>
+          </Row>
           {showResults.length > 0 ? (
             <Row xs={1} md={2} lg={3} className="g-3">
               {showResults.map((item) => (
@@ -204,11 +248,19 @@ class MovieDetailComponent extends Component {
 
                       <Button variant="light" className="btn-nav text-primary"
                       onClick={() =>{
-                        console.log(11222222)
                         this.props.cart(
                           user_id.data.id,
                           movie.details.id,
                         )
+                        const {notice} = this.props;
+                        console.log("NOTICEEE: ", notice);
+                        if(notice == "fail"){
+                          alert("This movie is already in cart");
+                        }
+                        else{
+                          alert("Add to cart successful");
+                        }
+
                       }
                       }
                       >
@@ -234,7 +286,9 @@ const mapStateToProps = (state) => ({
   showtime: state.showtime,
   order: state.order,
   user_id: state.user,
+  notice: state.cart.notice.notice,
 });
+
 const mapDispatchToProps = {
   getMovieDetail,
   showTime,
